@@ -1,0 +1,41 @@
+sept 19, 2018
+1. add 8, 16, 32 way merge functions
+2. add max and min sort enumerator parameter in merge function
+3. implement mpz_t version, separate file
+4. conversion function to altarray.(DONE)
+
+sept 23, 2018
+5.once base case reached, duplicated items are not properly sorted. This means
+    duplicate values or terms, are not added. The proposed solution is to call
+    4-way function on the base case for 8-way function and so on.
+6. The duplicate issue happens because the base case function rely on heap_sort
+   function to sort the linked list. (DONE)
+
+7. {{BUG: gmp gnu bug, when   gmp_randinit_default(n_state);
+                            gmp_randseed_ui(n_state, seed);
+
+                            gmp_randinit_default(d_state);
+                            gmp_randseed_ui(d_state, seed*3);
+
+                            mpz_init(rand_num);
+                            mpz_init(rand_den);
+                            
+                followed by mpq_t coef;
+                            mpq_init(coef);
+                            mpq_set_str(coef, "4/33", 10);
+
+                results in realloc(): invalid pointer
+                        error.}} <wrong> no bug, mpq_init is not used while creating terms. (FIXED)
+
+8. BUG TO FIX  memset(list, 0, sizeof(term_q));  //causes "malloc_consolidate(): invalid chunk size" error (FIXED)
+
+
+------------------------------------------------------------------------------------------------------------------
+
+ NEW BUGS: 
+9. ZERO coef is not eleminated from the list.
+10.  16, 32 -merge using linear search is not sorting properly.
+11. also check the others.
+
+12. 4 way merge test_100() fun error
+13. 8 way merge on max_sort test_100() fun not removing the last term with zero coef
